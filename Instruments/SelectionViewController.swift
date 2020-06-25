@@ -61,8 +61,7 @@ class SelectionViewController: UITableViewController {
 		// find the image for this cell, and load its thumbnail
 		let currentImage = items[indexPath.row % items.count]
 		let imageRootName = currentImage.replacingOccurrences(of: "Large", with: "Thumb")
-        guard let path = Bundle.main.path(forResource: imageRootName, ofType: nil) else { return cell}
-        guard let original = UIImage(contentsOfFile: path) else { return cell}
+        guard let original = UIImage(uncached: imageRootName) else { return cell}
         
         let renderRect = CGRect(origin: .zero, size: CGSize(width: 90, height: 90))
         let renderer = UIGraphicsImageRenderer(size: renderRect.size)

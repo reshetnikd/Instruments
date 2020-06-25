@@ -49,8 +49,7 @@ class ImageViewController: UIViewController {
         super.viewDidLoad()
 
 		title = image.replacingOccurrences(of: "-Large.jpg", with: "")
-        guard let path = Bundle.main.path(forResource: image, ofType: nil) else { return }
-        guard let original = UIImage(contentsOfFile: path) else { return }
+        guard let original = UIImage(uncached: image) else { return }
 
 		let renderer = UIGraphicsImageRenderer(size: original.size)
 
@@ -90,4 +89,14 @@ class ImageViewController: UIViewController {
 		// tell the parent view controller that it should refresh its table counters when we go back
 		owner.dirty = true
 	}
+}
+
+extension UIImage {
+    convenience init?(uncached name: String) {
+        if let path = Bundle.main.path(forResource: name, ofType: nil) {
+            self.init(contentsOfFile: path)
+        } else {
+            return nil
+        }
+    }
 }
